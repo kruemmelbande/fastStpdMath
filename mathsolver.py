@@ -36,6 +36,10 @@ def cut(input:str,toRemove:str):
     if working[:len(toRemove)] == toRemove:
         return working[len(toRemove):].strip()
 
+def autotype(number):
+    if float(number)==int(float(number)):
+        return int(float(number))
+    return float(number)
 def solveMath(equasion):
     q=queue()
     s=stack()
@@ -59,21 +63,32 @@ def solveMath(equasion):
                 i+=1
                 if i==len(wequasion):
                     break
-            seperated.push(-float(w))
+            seperated.push(-autotype(w))
             wequasion=cut(wequasion,"-"+w)
+            for i in range(len(operators)):
+                if wequasion.startswith(operators[i]):
+                    seperated.push(operators[i])
+                    wequasion=cut(wequasion,operators[i])
+                    break
             continue
         for i in range(len(wequasion)):
             for k in operators:
                 if wequasion[i:].startswith(k):
-                    seperated.push(wequasion[:i])
+                    seperated.push(autotype(wequasion[:i]))
                     seperated.push(k)
-                    wequasion=cut(wequasion,wequasion[:i]+k)
+                    tocut=wequasion[:i]+k
+                    wequasion=cut(wequasion,tocut)
+                    break
+
+            else:
+                continue
+            break
         for k in operators:
             if k in wequasion:
                 break
         else:
-            seperated.push(wequasion)
+            seperated.push(autotype(wequasion))
             break
-    print(seperated.getAll())
+    return seperated.getAll()
 if __name__=="__main__":
     print(solveMath(input("uwu: ")))
