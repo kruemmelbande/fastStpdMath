@@ -83,12 +83,13 @@ def solveMath(equasion):
             else:
                 continue
             break
-        for k in operators:
-            if k in wequasion:
+        if wequasion != "" and not ")" in wequasion:
+            for k in operators:
+                if k in wequasion:
+                    break
+            else:
+                seperated.push(autotype(wequasion))
                 break
-        else:
-            seperated.push(autotype(wequasion))
-            break
     return seperated.getAll()
 if __name__=="__main__":
     print(solveMath(input("uwu: ")))
